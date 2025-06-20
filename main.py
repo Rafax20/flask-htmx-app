@@ -22,6 +22,11 @@ def index():
     usuarios = Usuario.query.all()
     return render_template('index.html', usuarios=usuarios)
 
+@app.route('/inicializar-db')
+def inicializar_db():
+    db.create_all()
+    return "✅ Tablas creadas con éxito"
+
 @app.route('/agregar', methods=['POST'])
 def agregar():
     nombre = request.form['nombre']
