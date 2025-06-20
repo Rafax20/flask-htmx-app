@@ -22,8 +22,8 @@ def index():
     usuarios = Usuario.query.all()
     return render_template('index.html', usuarios=usuarios)
 
-@app.route('/inicializar-db')
-def inicializar_db():
+@app.before_first_request
+def crear_tablas_si_no_existen():
     db.create_all()
     return "✅ Tablas creadas con éxito"
 
