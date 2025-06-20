@@ -10,6 +10,12 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+with app.app_context():
+    try:
+        db.create_all()
+    except Exception as e:
+        print(f"Error creando tablas: {e}")
+
 db = SQLAlchemy(app)
 
 # Definimos un modelo de prueba
@@ -22,10 +28,10 @@ def index():
     usuarios = Usuario.query.all()
     return render_template('index.html', usuarios=usuarios)
 
-@app.before_first_request
-def crear_tablas_si_no_existen():
-    db.create_all()
-    return "✅ Tablas creadas con éxito"
+#@app.before_first_request
+#def crear_tablas_si_no_existen():
+    #db.create_all()
+    #return "✅ Tablas creadas con éxito"
 
 @app.route('/agregar', methods=['POST'])
 def agregar():
