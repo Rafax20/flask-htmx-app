@@ -2,7 +2,7 @@
 
 {% block contenido %}
   <h2>Agregar Usuario</h2>
-  <form hx-post="/agregar" hx-target="#tabla-usuarios" hx-swap="outerHTML">
+  <form hx-post="/agregar" hx-target="#tabla-usuarios" hx-swap="outerHTML" hx-on="afterRequest: this.reset()">
     <input type="text" name="nombre" placeholder="Nombre" required>
     <button type="submit">Agregar</button>
   </form>
