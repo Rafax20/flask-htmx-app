@@ -10,13 +10,14 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+db = SQLAlchemy(app)
+
 with app.app_context():
     try:
         db.create_all()
     except Exception as e:
         print(f"Error creando tablas: {e}")
 
-db = SQLAlchemy(app)
 
 # Definimos un modelo de prueba
 class Usuario(db.Model):
