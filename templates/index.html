@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+  <h2>Agregar Usuario</h2>
+  <form hx-post="/agregar" hx-target="#tabla-usuarios" hx-swap="outerHTML">
+    <input type="text" name="nombre" placeholder="Nombre" required>
+    <button type="submit">Agregar</button>
+  </form>
+
+  <hr>
+
+  <div id="tabla-usuarios">
+    {% include "_tabla_usuarios.html" %}
+  </div>
+{% endblock %}
