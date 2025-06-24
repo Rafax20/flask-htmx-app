@@ -2,11 +2,13 @@
   <tr>
     <th>ID</th>
     <th>Nombre</th>
+    <th>Correo</th>
   </tr>
   {% for usuario in usuarios %}
   <tr>
     <td>{{ usuario.id }}</td>
     <td>{{ usuario.nombre }}</td>
+    <td>{{ usuario.correo }}</td>
   </tr>
   {% endfor %}
 </table>

@@ -2,7 +2,8 @@ from dotenv import load_dotenv
 import os
 import psycopg2
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
-from Login_Admin import Ui_MainWindow  # <- Este es tu archivo generado por pyuic5
+from ventanas.Login_Admin import Ui_MainWindow  # <- Este es tu archivo generado por pyuic5
+from admin import VentanaAdmin
 
 load_dotenv() # Carga las variables del .env
 
@@ -21,9 +22,9 @@ class Ventana(QMainWindow):
     	return conn
 
     def verificar_credenciales(self):
+    
         usuario = self.ejecutar.userText.text()
         contrasena = self.ejecutar.passwordText.text()
-
         try:
             conn = self.conectar_base()
             cursor = conn.cursor()
@@ -35,7 +36,7 @@ class Ventana(QMainWindow):
 
             if cursor.fetchone():
                 QMessageBox.information(self, "Bienvenido", f"Acceso concedido, {usuario}")
-               # self.abrir_ventana_administrador()  # Este método lo defines tú
+                self.abrir_ventana_administrador()  # Este método lo defines tú
             else:
                 QMessageBox.warning(self, "Acceso denegado", "Usuario o contraseña incorrectos")
 
@@ -44,7 +45,11 @@ class Ventana(QMainWindow):
 
         except Exception as error:
             QMessageBox.critical(self, "Error de conexión", str(error))
-
+    
+    def abrir_ventana_administrador(self):
+        self.admin = VentanaAdmin()
+        self.admin.show()
+        self.close()
 
 if __name__ == "__main__":
     app = QApplication([])

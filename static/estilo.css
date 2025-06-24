@@ -1,0 +1,41 @@
+.registro-container {
+  max-width: 400px;
+  margin: 40px auto;
+  background-color: #2c2c2c;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.registro-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.registro-container input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 6px;
+  background-color: #f1f1f1;
+  font-size: 14px;
+}
+
+.boton-agregar {
+  width: 100%;
+  padding: 12px;
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.boton-agregar:hover {
+  background-color: #218838;
+}

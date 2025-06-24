@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, jsonify
+import re
+from flask import Flask, render_template, request, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import os
@@ -23,26 +24,37 @@ with app.app_context():
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
+    correo = db.Column(db.String(100), nullable=False)
 
 @app.route('/')
 def index():
     usuarios = Usuario.query.all()
     return render_template('index.html', usuarios=usuarios)
 
-#@app.before_first_request
-#def crear_tablas_si_no_existen():
-    #db.create_all()
-    #return "✅ Tablas creadas con éxito"
-
 @app.route('/agregar', methods=['POST'])
 def agregar():
-    nombre = request.form['nombre']
-    if nombre:
-        nuevo = Usuario(nombre=nombre)
-        db.session.add(nuevo)
-        db.session.commit()
+    nombre = request.form.get('nombre', '').strip()
+    correo = request.form.get('correo', '').strip()
+
+    if not nombre or not correo:
+        return "Nombre y correo son obligatorios", 400
+
+    email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    if not re.match(email_regex, correo):
+        return "Correo con formato inválido", 400
+
+    # Verificar si ya existe en la base
+    existe = Usuario.query.filter_by(correo=correo).first()
+    if existe:
+        return "Este correo ya está registrado", 400
+
+    nuevo_usuario = Usuario(nombre=nombre, correo=correo)
+    db.session.add(nuevo_usuario)
+    db.session.commit()
+
     usuarios = Usuario.query.all()
-    return render_template('_tabla_usuarios.html', usuarios=usuarios)
+    return render_template('_tabla_usuarios.html', usuarios=usuarios, correo=correo)
+
 
 @app.route('/api/usuarios', methods=['GET'])
 def listar_usuarios_json():
