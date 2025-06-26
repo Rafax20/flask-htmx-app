@@ -2,6 +2,7 @@ import re
 from flask import Flask, render_template, request, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
+from correo import enviar_bienvenida
 import os
 # import requests
 
@@ -51,6 +52,11 @@ def agregar():
     nuevo_usuario = Usuario(nombre=nombre, correo=correo)
     db.session.add(nuevo_usuario)
     db.session.commit()
+
+    # Verificamos si es de Gmail
+    if correo.endswith("@gmail.com"):
+        enviar_bienvenida(correo, nombre)
+
 
     usuarios = Usuario.query.all()
     return render_template('_tabla_usuarios.html', usuarios=usuarios, correo=correo)
