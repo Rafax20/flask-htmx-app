@@ -1,6 +1,7 @@
 import re
 from flask import Flask, render_template, request, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from dotenv import load_dotenv
 from correo import enviar_bienvenida
 import os
@@ -13,6 +14,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 with app.app_context():
     try:
