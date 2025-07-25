@@ -14,11 +14,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-with app.app_context():
-    try:
-        db.create_all()
-    except Exception as e:
-        print(f"Error creando tablas: {e}")
+# with app.app_context():
+  #  try:
+   #     db.create_all()
+    #except Exception as e:
+     #   print(f"Error creando tablas: {e}")
 
 
 # Definimos un modelo de prueba
