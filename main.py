@@ -76,13 +76,16 @@ def listar_usuarios_json():
 if __name__ == '__main__':
     with app.app_context():
          try:
-        db.engine.execute(text("""
+            db.engine.execute(text("""
             CREATE TABLE IF NOT EXISTS usuario (
                 id SERIAL PRIMARY KEY,
                 nombre VARCHAR(100) NOT NULL,
                 correo VARCHAR(100) NOT NULL
             );
-        """))
+            """))
+        except Exception as e:
+            import sys
+            print(f"Error creando tabla manualmente: {e}", file=sys.stderr)
     app.run(debug=True)
 
 # Forzando redeploy para crear tablas
