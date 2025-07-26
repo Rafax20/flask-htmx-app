@@ -75,13 +75,13 @@ def listar_usuarios_json():
 
 if __name__ == '__main__':
     with app.app_context():
-         try:
+        try:
             db.engine.execute(text("""
-            CREATE TABLE IF NOT EXISTS usuario (
-                id SERIAL PRIMARY KEY,
-                nombre VARCHAR(100) NOT NULL,
-                correo VARCHAR(100) NOT NULL
-            );
+                CREATE TABLE IF NOT EXISTS usuario (
+                    id SERIAL PRIMARY KEY,
+                    nombre VARCHAR(100) NOT NULL,
+                    correo VARCHAR(100) NOT NULL
+                );
             """))
         except Exception as e:
             import sys
