@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from dotenv import load_dotenv
+from sqlalchemy import text
 from correo import enviar_bienvenida
 import os
 # import requests
@@ -74,7 +75,14 @@ def listar_usuarios_json():
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Crea las tablas si no existen
+         try:
+        db.engine.execute(text("""
+            CREATE TABLE IF NOT EXISTS usuario (
+                id SERIAL PRIMARY KEY,
+                nombre VARCHAR(100) NOT NULL,
+                correo VARCHAR(100) NOT NULL
+            );
+        """))
     app.run(debug=True)
 
 # Forzando redeploy para crear tablas
